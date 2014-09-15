@@ -1,34 +1,24 @@
 package de.persosim.driver.connector.pcsc;
 
-import de.persosim.simulator.tlv.TlvDataObject;
-
 /**
  * This interface defines a PCSC feature.
  * 
  * @author mboonk
  * 
  */
-public interface PcscFeature {
-	/**
-	 * Implementations should use this method to process the data received from
-	 * the native PCSC system.
-	 * 
-	 * @param controlCode
-	 *            the functions control code
-	 * @param data
-	 *            the input data
-	 * @return the result of this features calculations as byte array
-	 */
-	public abstract byte[] process(byte[] controlCode, byte[] data);
-
+public interface PcscFeature extends PcscListener {
 	/**
 	 * @return the capabilities provided by this PCSC feature
 	 */
-	public abstract TlvDataObject getCapabilities();
+	public abstract byte[] getCapabilities();
 
 	/**
-	 * @see PCSC specification part 10 2.2
-	 * @return
+	 * This is a concatenation of the one byte feature description, a length
+	 * byte (static value of 4) and a control code to be used by the pcsc system
+	 * in deviceControl executions.<br/>
+	 * 
+	 * These features are defined in the PCSC specification part 10 2.2
+	 * @return the feature definition
 	 */
-	public abstract TlvDataObject getFeatureDefinition();
+	public abstract byte[] getFeatureDefinition();
 }
