@@ -176,6 +176,40 @@ public class PersoSimPcscProcessor extends AbstractPcscFeature implements Socket
 			return null;
 		}
 
+		if (Utils.arrayHasPrefix(commandPpdu, expectedHeaderFor03119Commands)) {
+			switch (Utils.getShortFromUnsignedByteArray(Arrays.copyOfRange(
+					commandPpdu, 2, 3))) {
+			case 0x0101:
+				return new SimplePcscCallResult(PcscConstants.IFD_SUCCESS,
+						new byte[] { 0x52, (byte) 0x45, (byte) 0x49,
+								(byte) 0x4E, (byte) 0x45, (byte) 0x52,
+								(byte) 0x20, (byte) 0x53, (byte) 0x43,
+								(byte) 0x54, (byte) 0x90, (byte) 0x00 });
+			case 0x0103:
+				return new SimplePcscCallResult(PcscConstants.IFD_SUCCESS,
+						new byte[] { 0x63, (byte) 0x79, (byte) 0x62,
+								(byte) 0x65, (byte) 0x72, (byte) 0x4A,
+								(byte) 0x61, (byte) 0x63, (byte) 0x6B,
+								(byte) 0x20, (byte) 0x52, (byte) 0x46,
+								(byte) 0x49, (byte) 0x44, (byte) 0x20,
+								(byte) 0x73, (byte) 0x74, (byte) 0x61,
+								(byte) 0x6E, (byte) 0x64, (byte) 0x61,
+								(byte) 0x72, (byte) 0x64, (byte) 0x90,
+								(byte) 0x00
+
+						});
+			case 0x0106:
+				return new SimplePcscCallResult(PcscConstants.IFD_SUCCESS,
+						new byte[] { 0x31, (byte) 0x2E, (byte) 0x32,
+								(byte) 0x90, (byte) 0x00 });
+			case 0x0107:
+				return new SimplePcscCallResult(PcscConstants.IFD_SUCCESS,
+						new byte[] { 0x33, (byte) 0x2E, (byte) 0x39,
+								(byte) 0x39, (byte) 0x2E, (byte) 0x35,
+								(byte) 0x90, (byte) 0x00 });
+			}
+		}
+
 		PcscCallResult result = null;
 		switch (commandPpdu[OFFSET_FUNCTION]) {
 		case FUNCTION_GET_READER_PACE_CAPABILITIES:

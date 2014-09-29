@@ -35,7 +35,7 @@ import de.persosim.simulator.utils.Utils;
 public class NativeDriverConnector implements PcscConstants, PcscListener {
 
 	private static final byte FEATURE_GET_FEATURE_REQUEST = 0;
-	private Collection<PcscListener> listeners = new ArrayList<PcscListener>();
+	private List<PcscListener> listeners = new ArrayList<PcscListener>();
 	private Collection<VirtualReaderUi> userInterfaces = new HashSet<VirtualReaderUi>();
 	private NativeDriverComm comm;
 	private String nativeDriverHostName;
@@ -64,6 +64,7 @@ public class NativeDriverConnector implements PcscConstants, PcscListener {
 		this.nativeDriverPort = nativeDriverPort;
 		this.simHostName = simHostName;
 		this.simPort = simPort;
+		this.listeners.add(this);
 	}
 
 	/**
@@ -73,7 +74,6 @@ public class NativeDriverConnector implements PcscConstants, PcscListener {
 	 * @throws UnknownHostException
 	 */
 	public void connect() throws IOException {
-		addListener(this);
 		comm = new NativeDriverComm(nativeDriverHostName, nativeDriverPort,
 				listeners);
 		comm.start();
@@ -108,10 +108,14 @@ public class NativeDriverConnector implements PcscConstants, PcscListener {
 	 * @param listener
 	 */
 	public void addListener(PcscListener listener) {
+<<<<<<< Upstream, based on simRealReader
 		listeners.add(listener);
 		if (listener instanceof UiEnabled){
 			((UiEnabled)listener).setUserInterfaces(userInterfaces);
 		}
+=======
+		listeners.add(listeners.size()-1, listener);
+>>>>>>> fc65015 Try to emulate a real reader by sending the corresponding data
 	}
 
 	/**
