@@ -317,6 +317,9 @@ public class NativeDriverConnector implements PcscConstants, PcscListener {
 			if (cachedAtr != null && cachedAtr.length <= expectedLength.getAsSignedLong()){
 				return new SimplePcscCallResult(IFD_SUCCESS, cachedAtr);	
 			}
+			if (cachedAtr == null){
+				return new SimplePcscCallResult(IFD_ERROR_POWER_ACTION);
+			}
 			return new SimplePcscCallResult(IFD_ERROR_INSUFFICIENT_BUFFER);
 		}
 	}
